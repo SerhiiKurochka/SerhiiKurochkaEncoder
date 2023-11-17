@@ -9,12 +9,12 @@ public class CaesarCipher {
 
     private static final List<String> wordsEN = List.of("i", "am", "are", "you", "he", "she", "it", "we", "they",
             "and", "me", "him", "her", "us", "them", "my", "your", "his", "her", "out", "its", "our", "their", "all", "every", "any",
-            "some", "other", "at", "to", "for", "with", "without","don't","do");
+            "some", "other", "at", "to", "for", "with", "without", "don't", "do");
     private static final List<String> wordsUA = List.of("і", "та", "я", "ми", "або", "в", "у", "на", "тобто",
             "сьогодні", "тобі", "йому", "вона", "він", "йому", "їх", "їм", "до");
 
     public String encrypt(String content, int key) {
-        String alphabet=getAlphabet(content);
+        String alphabet = getAlphabet(content);
         int offset = 0;
         char[] charArray = content.toCharArray();
         int size = alphabet.length();
@@ -39,16 +39,16 @@ public class CaesarCipher {
                 .collect(Collectors.joining());
     }
 
-    private String getAlphabet(String content){
-        if (isUA(content)){
+    private String getAlphabet(String content) {
+        if (isUA(content)) {
             return ALPHABET_UA;
         }
         return ALPHABET_EN;
     }
 
     private boolean isUA(String content) {
-        for(int i = 0; i < content.length(); i++) {
-            if(Character.UnicodeBlock.of(content.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
+        for (int i = 0; i < content.length(); i++) {
+            if (Character.UnicodeBlock.of(content.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
                 return true;
             }
         }
@@ -84,15 +84,15 @@ public class CaesarCipher {
     public int bruteForce(String encryptedContent) {
         List<String> words;
         String alphabet;
-        if (isUA(encryptedContent)){
+        if (isUA(encryptedContent)) {
             alphabet = ALPHABET_UA;
-            words=wordsUA;
-        }else {
-            alphabet=ALPHABET_EN;
-            words=wordsEN;
+            words = wordsUA;
+        } else {
+            alphabet = ALPHABET_EN;
+            words = wordsEN;
         }
 
-        HashMap<Integer,Integer> result=new HashMap();
+        HashMap<Integer, Integer> result = new HashMap();
         int offset;
         String decryptedContent = "";
         for (offset = 0; offset < alphabet.length(); offset++) {
@@ -100,15 +100,14 @@ public class CaesarCipher {
             List<String> splited = List.of(decryptedContent.split(" "));
             int n = 0;
             for (String word : words) {
-                if(splited.contains(word)){
-                 n++;
+                if (splited.contains(word)) {
+                    n++;
                 }
 
             }
-            if(n>0) {
+            if (n > 0) {
                 result.put(offset, n);
             }
-            ;
         }
 
         return Collections.max(result.entrySet(), Map.Entry.comparingByValue()).getKey();

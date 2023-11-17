@@ -45,7 +45,7 @@ public class MainForm extends JFrame {
                 String filePath = txtFile.getText();
                 int key = caesarCipher.bruteForceFile(filePath);
                 lblMessage.setText("Encryption key is " + key);
-               // txtKey.setText(String.valueOf(key));
+                txtKey.setText(String.valueOf(key));
             }
         });
 
