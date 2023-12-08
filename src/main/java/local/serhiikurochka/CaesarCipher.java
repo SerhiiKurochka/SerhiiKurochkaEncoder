@@ -7,15 +7,15 @@ public class CaesarCipher {
     private static final String ALPHABET_EN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\n\r\t */\\$%&#@!(){}[],;'”<>|^~.`-";
     private static final String ALPHABET_UA = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя\n\r\t */\\$%&#@!(){}[],;'”<>|^~.`";
 
-    private static final List<String> wordsEN = List.of("i", "am", "are", "you", "he", "she", "it", "we", "they",
+    private static final List<String> WORDS_EN = List.of("i", "am", "are", "you", "he", "she", "it", "we", "they",
             "and", "me", "him", "her", "us", "them", "my", "your", "his", "her", "out", "its", "our", "their", "all", "every", "any",
             "some", "other", "at", "to", "for", "with", "without", "don't", "do");
-    private static final List<String> wordsUA = List.of("і", "та", "я", "ми", "або", "в", "у", "на", "тобто",
+    private static final List<String> WORDS_UA = List.of("і", "та", "я", "ми", "або", "в", "у", "на", "тобто",
             "сьогодні", "тобі", "йому", "вона", "він", "йому", "їх", "їм", "до");
 
-    public String encrypt(String content, int key) {
+    private String encrypt(String content, int key) {
         String alphabet = getAlphabet(content);
-        int offset = 0;
+        int offset;
         char[] charArray = content.toCharArray();
         int size = alphabet.length();
         List<Character> charEncrypted = new ArrayList<>();
@@ -55,7 +55,7 @@ public class CaesarCipher {
         return false;
     }
 
-    public String decrypt(String content, int offset) {
+    private String decrypt(String content, int offset) {
         return encrypt(content, -offset);
     }
 
@@ -81,18 +81,18 @@ public class CaesarCipher {
         return bruteForce(fileService.read(path));
     }
 
-    public int bruteForce(String encryptedContent) {
+    private int bruteForce(String encryptedContent) {
         List<String> words;
         String alphabet;
         if (isUA(encryptedContent)) {
             alphabet = ALPHABET_UA;
-            words = wordsUA;
+            words = WORDS_UA;
         } else {
             alphabet = ALPHABET_EN;
-            words = wordsEN;
+            words = WORDS_EN;
         }
 
-        HashMap<Integer, Integer> result = new HashMap();
+        HashMap<Integer, Integer> result = new HashMap<>();
         int offset;
         String decryptedContent = "";
         for (offset = 0; offset < alphabet.length(); offset++) {
